@@ -1,5 +1,5 @@
 from models import *
-from utils import *
+from utils import utils
 
 import os, sys, time, datetime, random
 import torch
@@ -46,7 +46,8 @@ def detect_image(img):
         detections = utils.non_max_suppression(detections, 80, conf_thres, nms_thres)
     return detections[0]
 
-videopath = '../data/video/overpass.mp4'
+# videopath = os.path.join("video"  + "overpass.mp4")
+videopath = os.path.join("videos", "desk.mp4")
 
 import cv2
 from sort import *
