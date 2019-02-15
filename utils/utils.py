@@ -133,8 +133,8 @@ def bbox_iou_numpy(box1, box2):
 
 def non_max_suppression(prediction, num_classes, conf_thres=0.5, nms_thres=0.4):
     """
-    Removes detections with lower object confidence score than 'conf_thres' and performs
-    Non-Maximum Suppression to further filter detections.
+    Removes detections with lower object confidence score than 'conf_thres' and
+    performs Non-Maximum Suppression to further filter detections.
     Returns detections with shape:
         (x1, y1, x2, y2, object_conf, class_score, class_pred)
     """

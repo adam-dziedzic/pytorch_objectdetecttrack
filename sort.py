@@ -199,11 +199,17 @@ class Sort(object):
     def update(self, dets):
         """
         Params:
-          dets - a numpy array of detections in the format [[x1,y1,x2,y2,score],[x1,y1,x2,y2,score],...]
-        Requires: this method must be called once for each frame even with empty detections.
-        Returns the a similar array, where the last column is the object ID.
+          dets - a numpy array of detections in the format:
+           [[x1,y1,x2,y2,score],[x1,y1,x2,y2,score],...]
 
-        NOTE: The number of objects returned may differ from the number of detections provided.
+        Requires: this method must be called once for each frame even with empty
+        detections.
+
+        Returns are in the same form as the input but the last column is the
+        object ID.
+
+        NOTE: The number of objects returned may differ from the number of
+        detections provided.
         """
         self.frame_count += 1
         # get predicted locations from existing trackers.
@@ -296,7 +302,7 @@ if __name__ == '__main__':
                 if (display):
                     ax1 = fig.add_subplot(111, aspect='equal')
                     fn = 'mot_benchmark/%s/%s/img1/%06d.jpg' % (
-                    phase, seq, frame)
+                        phase, seq, frame)
                     im = io.imread(fn)
                     ax1.imshow(im)
                     plt.title(seq + ' Tracked Targets')
@@ -308,7 +314,7 @@ if __name__ == '__main__':
 
                 for d in trackers:
                     print('%d,%d,%.2f,%.2f,%.2f,%.2f,1,-1,-1,-1' % (
-                    frame, d[4], d[0], d[1], d[2] - d[0], d[3] - d[1]),
+                        frame, d[4], d[0], d[1], d[2] - d[0], d[3] - d[1]),
                           file=out_file)
                     if (display):
                         d = d.astype(np.int32)
@@ -324,7 +330,7 @@ if __name__ == '__main__':
                     ax1.cla()
 
     print("Total Tracking took: %.3f for %d frames or %.1f FPS" % (
-    total_time, total_frames, total_frames / total_time))
+        total_time, total_frames, total_frames / total_time))
     if (display):
         print(
             "Note: to get real runtime results run without the option: --display")

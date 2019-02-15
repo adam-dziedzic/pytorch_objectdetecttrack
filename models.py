@@ -267,7 +267,7 @@ class Darknet(nn.Module):
 
         self.losses["recall"] /= 3
         self.losses["precision"] /= 3
-        return sum(output) if is_training else torch.cat(output, 1)
+        return sum(output) if is_training else torch.cat(tensors=output, dim=1)
 
     def load_weights(self, weights_path):
         """Parses and loads the weights stored in 'weights_path'"""
