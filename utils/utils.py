@@ -16,10 +16,15 @@ def load_classes(path):
     """
     Loads class labels at 'path'
     """
-    fp = open(path, "r")
-    names = fp.read().split("\n")[:-1]
-    return names
+    with open(path, "r") as fp:
+        return fp.read().split("\n")
 
+
+def load_classes_strip(path):
+    """
+    Loads class labels at 'path' and strip them.
+    """
+    return [name.strip() for name in open(path).readlines()]
 
 def weights_init_normal(m):
     classname = m.__class__.__name__

@@ -62,8 +62,9 @@ class Predictor:
                                                    args.nms_thres)
         return detections[0]
 
-    def predict(self, image):
-        return self.detect_image(image)
+    def predict_for_mot(self, frame):
+        pilimg = Image.fromarray(frame)
+        return self.detect_image(pilimg).cpu()
 
 
 def main(args):
@@ -87,8 +88,9 @@ def main(args):
         args.num_classes = len(classes)
         net = create_vgg_ssd(args.num_classes, is_test=True)
         net.load(model_path)
-        predictor = create_vgg_ssd_predictor(net, candidate_size=200, top_k=10,
-                                         filter_threshold=0.4)
+        predictor = create_vgg_ssd_predictor(net, candidate_size=200, top_k=20,
+                                             filter_threshold=0.01,
+                                             nms_method="soft")
 
     # videopath = '../data/video/overpass.mp4'
     # videopath = os.path.join("videos", "desk.mp4")
@@ -114,13 +116,12 @@ def main(args):
           vid.get(cv2.CAP_PROP_FOURCC))
     mot_tracker = Sort()
 
-    # while (True):
-    for ii in range(3):
+    while (True):
+        # for ii in range(3):
         ret, frame = vid.read()
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        detections = predictor.predict_for_mot(frame)
         pilimg = Image.fromarray(frame)
-        detections = predictor.predict(pilimg)
-
         img = np.array(pilimg)
         pad_x = max(img.shape[0] - img.shape[1], 0) * (
                 args.img_size / max(img.shape))
@@ -171,6 +172,9 @@ if __name__ == "__main__":
     parser.add_argument('--img_size', type=int, default=416)
     parser.add_argument('--conf_thres', type=float, default=0.8)
     parser.add_argument('--nms_thres', type=float, default=0.4)
-    parser.add_argument('--model', default="Darknet")
+    parser.add_argument('--model',
+                        # default="Darknet",
+                        default="vgg16-ssd"
+                        )
     args = parser.parse_args()
     main(args)
