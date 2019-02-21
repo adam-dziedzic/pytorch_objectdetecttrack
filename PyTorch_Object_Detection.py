@@ -1,10 +1,9 @@
-from models import *
+from utils.models import *
 from utils import utils
 
-import os, sys, time, datetime, random
+import time, datetime, random
 import torch
-from torch.utils.data import DataLoader
-from torchvision import datasets, transforms
+from torchvision import transforms
 from torch.autograd import Variable
 
 import matplotlib.pyplot as plt
